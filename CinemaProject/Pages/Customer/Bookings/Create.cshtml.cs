@@ -13,6 +13,7 @@ namespace CinemaProject.Pages.Customer.Bookings
 		public Screening Screening { get; set; }
 		public List<TicketType> TicketTypeList = new List<TicketType>();
 		public List<int> ticketQuantities = new List<int>();
+		public int ScreeningId { get; set; }
 
 		public CreateModel(IUnitOfWork unitOfWork)
 		{
@@ -32,13 +33,17 @@ namespace CinemaProject.Pages.Customer.Bookings
 			Film = _unitOfWork.FilmRepo.Get(Screening.FilmID);
 			Booking = new Booking() { TotalPrice = 0 };
 			Booking.Tickets = new List<Ticket>();
+
 		}
 
-		public IActionResult OnPost()
+		public IActionResult OnPost(Booking booking, List<int> ticketQuantities, int ScreeningId)
 		{
 			if (ModelState.IsValid)
 			{
 				int y = 0;
+				_unitOfWork.BookingRepo.Add(booking);
+				_unitOfWork.Save();
+				int id = _unitOfWork.BookingRepo.GetAll().Last().Id;
 				for (int i = 0; i < TicketTypeList.Count; i++)
 				{
 
@@ -50,27 +55,26 @@ namespace CinemaProject.Pages.Customer.Bookings
 						{
 							TicketTypeId = TicketTypeList[i].Id,
 							TicketType = TicketTypeList[i],
-							ScreeningId = Screening.Id,
-							Screening = Screening,
-							BookingId = Booking.Id,
-							Booking = Booking
+							ScreeningId = ScreeningId,
+							BookingId = id,
 						};
-						Booking.TotalPrice += TicketTypeList[i].Price;
+						booking.TotalPrice += TicketTypeList[i].Price;
 
 						_unitOfWork.TicketRepo.Add(tic);
-						Booking.Tickets.Add(tic);
+
 					}
 
 				}
-				if(y == 0) 
+				
+				if (y == 0) 
 				{
 					return RedirectToPage("Index");
 				}
 				//else if(y >= screen capactity){}
 
-				_unitOfWork.BookingRepo.Add(Booking);
+				_unitOfWork.BookingRepo.Update(booking);
 				_unitOfWork.Save();
-				int id = _unitOfWork.BookingRepo.GetAll().Last().Id;
+				
 				return RedirectToRoute("./Confirmation", new {id = id});
 			}
 			return RedirectToPage("Index");
