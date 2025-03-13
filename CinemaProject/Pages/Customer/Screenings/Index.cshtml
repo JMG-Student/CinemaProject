@@ -30,7 +30,9 @@
                         <td>@endTime.ToString("t")</td>
                         <td>@screening.ScreenID</td>
                         <td>
-                            <a asp-page="/Customer/Bookings/Create" asp-route-id="@screening.Id" class="btn btn-primary">Book Tickets</a>
+
+                            <a asp-page="/Customer/Bookings/Create" asp-route-Id="@screening.Id" class="btn btn-primary">Book Tickets</a>
+
                         </td>
                     </tr>
                 }

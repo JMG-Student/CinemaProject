@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CinemaProject.Pages.Customer.Bookings
 {
+
     public class CreateModel : PageModel
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -49,8 +50,8 @@ namespace CinemaProject.Pages.Customer.Bookings
                 RedirectToPage("Index");
                 return;
             }
-
-            Booking = new Booking { Tickets = new List<Ticket>() };
+            
+            Booking = new Booking { Tickets = new List<Ticket>() TotalPrice = 0 };
         }
 
         public IActionResult OnPost()
@@ -104,4 +105,5 @@ namespace CinemaProject.Pages.Customer.Bookings
             return RedirectToPage("Index");
         }
     }
+
 }
