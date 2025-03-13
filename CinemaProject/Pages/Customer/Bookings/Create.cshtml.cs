@@ -13,7 +13,6 @@ namespace CinemaProject.Pages.Customer.Bookings
 		public Screening Screening { get; set; }
 		public List<TicketType> TicketTypeList = new List<TicketType>();
 		public List<int> ticketQuantities = new List<int>();
-		public Boolean isTickets = false;
 
 		public CreateModel(IUnitOfWork unitOfWork)
 		{
@@ -39,12 +38,13 @@ namespace CinemaProject.Pages.Customer.Bookings
 		{
 			if (ModelState.IsValid)
 			{
+				int y = 0;
 				for (int i = 0; i < TicketTypeList.Count; i++)
 				{
 
 					for (int x = 0; x < ticketQuantities[i]; x++)
 					{
-						isTickets = true;
+						y++;
 
 						Ticket tic = new Ticket
 						{
@@ -61,12 +61,13 @@ namespace CinemaProject.Pages.Customer.Bookings
 					}
 
 				}
-				if (isTickets == false) 
+				if(y == 0) 
 				{
 					return RedirectToPage("Index");
 				}
+				//else if(y >= screen capactity){}
 
-				_unitOfWork.BookingRepo.Add(Booking);
+					_unitOfWork.BookingRepo.Add(Booking);
 				_unitOfWork.Save();
 			}
 			return RedirectToPage("Index");
