@@ -51,7 +51,7 @@ namespace CinemaProject.Pages.Customer.Bookings
                 return;
             }
             
-            Booking = new Booking { Tickets = new List<Ticket>() TotalPrice = 0 };
+            Booking = new Booking { Tickets = new List<Ticket>() , TotalPrice = 0 };
         }
 
         public IActionResult OnPost()
