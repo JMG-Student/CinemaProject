@@ -2,3 +2,44 @@
 @model CinemaProject.Pages.Customer.Bookings.ConfirmationModel
 @{
 }
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+        </div>
+        <div class="col-6">
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Film</th>
+            <th>Time</th>
+            <th>Screen</th>
+            <th>Type</th>
+            <th>Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var obj in Model.booking.Tickets)
+        {
+            <tr>
+                <td width="15%">@obj.Screening.Film.Title</td>
+                <td width="15%">@obj.Screening.Time</td>
+                <td width="15%">Screen @obj.Screening.ScreenID</td>
+                <td width="15%">@obj.TicketType.Name</td>
+                <td width="15%">@obj.TicketType.Price</td>
+            </tr>
+        }
+        <tr>
+            <td width="15%"></td>
+            <td width="15%"></td>
+            <td width="15%"></td>
+            <td width="15%"></td>
+            <td width="15%">@Model.booking.TotalPrice</td>
+        </tr>
+    </tbody>
+</table>

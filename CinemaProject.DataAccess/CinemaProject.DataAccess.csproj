@@ -23,8 +23,4 @@
     <ProjectReference Include="..\CinemaProject.Models\CinemaProject.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>
