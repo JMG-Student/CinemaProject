@@ -21,26 +21,19 @@ namespace CinemaProject.Services
 		    public IScreeningRepo ScreeningRepo { get; private set; }
         public ICapacityRepo CapacityRepo { get; private set; }
         public IScreenRepo ScreenRepo { get; private set; }
-
-
-
-
+        
         public UnitOfWork(AppDBContext appDBContext)
         {
 
             _dbContext = appDBContext;
             FilmRepo = new FilmRepo(_dbContext);
             GenreRepo = new GenreRepo(_dbContext);
-
-            TicketRepo = new TicketRepo(_dbContext); 
-            TicketTypeRepo = new TicketTypeRepo(_dbContext);
-
-			      BookingRepo = new BookingRepo(_dbContext);
-			      ScreeningRepo = new ScreeningRepo(_dbContext);
+			      TicketRepo = new TicketRepo(_dbContext);
+			      TicketTypeRepo = new TicketTypeRepo(_dbContext);
+            BookingRepo = new BookingRepo(_dbContext);
+            ScreeningRepo = new ScreeningRepo(_dbContext);
             ScreenRepo = new ScreenRepo(_dbContext);
             CapacityRepo = new CapacityRepo(_dbContext);
-
-
         }
 
         public void Dispose()
