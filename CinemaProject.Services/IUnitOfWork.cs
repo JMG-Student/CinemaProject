@@ -13,6 +13,14 @@ namespace CinemaProject.Services
 
         IGenreRepo GenreRepo { get; }
 
-        void Save();
+        ITicketRepo TicketRepo { get; }
+
+		ITicketTypeRepo TicketTypeRepo { get; }
+
+		IBookingRepo BookingRepo { get; }
+
+		IScreeningRepo ScreeningRepo { get; }
+
+		void Save();
     }
 }
