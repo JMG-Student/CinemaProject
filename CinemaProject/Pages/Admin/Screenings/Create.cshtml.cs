@@ -24,80 +24,18 @@ namespace CinemaProject.Pages.Admin.Screenings
 
         public void OnGet()
         {
-            // _dbContext.Screen shall be renamed as Screens
             ScreenList = _dbContext.Screens.Select(i => new SelectListItem()
             {
-                // Uncomment this line once all branches are merged 
                 Text = ("Screen "+(i.Id.ToString())),
                 Value = i.Id.ToString(),
             });
 
             FilmList = _dbContext.Films.Select(i => new SelectListItem()
             {
-                // Uncomment this line once all branches are merged 
                 Text = i.Title,
                 Value = i.Id.ToString(),
             });
         }
-        //public async Task<IActionResult> OnPost(Screening screening)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        await _dbContext.Screenings.AddAsync(screening);
-        //        _dbContext.SaveChanges();
-        //    }
-        //    return RedirectToPage("Index");
-        //}
-
-        //public async Task<IActionResult> OnPost(Screening screening)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        // Fetch the selected film to get its duration
-        //        var film = await _dbContext.Films.FindAsync(screening.FilmID);
-        //        if (film == null)
-        //        {
-        //            ModelState.AddModelError("Screening.FilmID", "Invalid film selected.");
-        //            return Page();
-        //        }
-
-        //        // Calculate the end time of the new screening
-        //        var screeningEndTime = screening.Time.AddMinutes(film.Runtime);
-
-        //        // Check for overlapping screenings in the same screen
-        //        var overlappingScreenings = await _dbContext.Screenings
-        //            .Where(s => s.ScreenID == screening.ScreenID)
-        //            .Where(s => s.Time < screeningEndTime && s.Time.AddMinutes(s.Film.Runtime) > screening.Time)
-        //            .ToListAsync();
-
-        //        if (overlappingScreenings.Any())
-        //        {
-        //            ModelState.AddModelError("Screening.Time", "The screening overlaps with an existing screening in the same screen.");
-        //            return Page();
-
-        //        }
-
-        //        // If no overlaps, add the new screening
-        //        await _dbContext.Screenings.AddAsync(screening);
-        //        await _dbContext.SaveChangesAsync();
-        //        return RedirectToPage("Index");
-        //    }
-
-        //    // If the model state is invalid, reload the dropdowns
-        //    ScreenList = _dbContext.Screens.Select(i => new SelectListItem()
-        //    {
-        //        Text = "Screen " + i.Id.ToString(),
-        //        Value = i.Id.ToString(),
-        //    });
-
-        //    FilmList = _dbContext.Films.Select(i => new SelectListItem()
-        //    {
-        //        Text = i.Title,
-        //        Value = i.Id.ToString(),
-        //    });
-
-        //    return Page();
-        //}
 
         public async Task<IActionResult> OnPost(Screening screening)
         {
@@ -149,8 +87,5 @@ namespace CinemaProject.Pages.Admin.Screenings
 
             return Page();
         }
-
-
-
     }
 }
