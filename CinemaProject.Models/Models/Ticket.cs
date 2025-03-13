@@ -11,5 +11,17 @@ namespace CinemaProject.Models.Models
     {
         [Key]
         public int Id { get; set; }
-    }
+
+        
+		public int TicketTypeId { get; set; }
+		public TicketType TicketType { get; set; }
+
+		public int ScreeningId { get; set; }
+		public Screening Screening { get; set; }
+
+        public int BookingId { get; set; }
+        public Booking Booking { get; set; }
+
+
+	}
 }

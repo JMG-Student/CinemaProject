@@ -46,10 +46,10 @@ namespace CinemaProject.Pages.Admin.Films
             var upload = Path.Combine(mwmRootFolder, @"Images\Films");
             var extension = Path.GetExtension(files[0].FileName);
 
-            if (!Directory.Exists(upload))
-            {
-                Directory.CreateDirectory(upload);
-            }
+            //if (!Directory.Exists(upload))
+            //{
+            //    Directory.CreateDirectory(upload);
+            //}
 
             using (var fileStream = new FileStream(Path.Combine(upload, new_filename + extension), FileMode.Create))
             {

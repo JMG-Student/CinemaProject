@@ -14,15 +14,26 @@ namespace CinemaProject.Services
         private readonly AppDBContext _dbContext;
 
         public IFilmRepo FilmRepo { get; private set; }
-
         public IGenreRepo GenreRepo { get; private set; }
 
-        public UnitOfWork(AppDBContext appDBContext)
+        public ITicketRepo TicektRepo { get; private set; }
+		public ITicketTypeRepo TicketTypeRepo { get; private set; }
+		public IBookingRepo BookingRepo { get; private set; }
+		public IScreeningRepo ScreeningRepo { get; private set; }
+
+
+		public UnitOfWork(AppDBContext appDBContext)
         {
+
             _dbContext = appDBContext;
             FilmRepo = new FilmRepo(_dbContext);
             GenreRepo = new GenreRepo(_dbContext);
-        }
+			TicektRepo = new TicketRepo(_dbContext);
+			TicketTypeRepo = new TicketTypeRepo(_dbContext);
+			BookingRepo = new BookingRepo(_dbContext);
+			ScreeningRepo = new ScreeningRepo(_dbContext);
+
+		}
 
         public void Dispose()
         {
