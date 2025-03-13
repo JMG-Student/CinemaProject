@@ -15,12 +15,12 @@ namespace CinemaProject.Services
 
         public IFilmRepo FilmRepo { get; private set; }
         public IGenreRepo GenreRepo { get; private set; }
-
         public ITicketRepo TicketRepo { get; private set; }
 		public ITicketTypeRepo TicketTypeRepo { get; private set; }
 		public IBookingRepo BookingRepo { get; private set; }
 		public IScreeningRepo ScreeningRepo { get; private set; }
-
+        public ICapacityRepo CapacityRepo { get; private set; }
+        public IScreenRepo ScreenRepo { get; private set; }
 
 		public UnitOfWork(AppDBContext appDBContext)
         {
