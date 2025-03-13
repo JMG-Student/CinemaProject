@@ -15,11 +15,37 @@ namespace CinemaProject.Pages.Admin.Screenings
         {
             _dbContext = dbContext;
         }
+        //public void OnGet()
+        //{
+        //    Screenings = _dbContext.Screenings
+        //        .Include(s => s.Film)
+        //        .ToList();
+        //}
+
+        public Dictionary<DateTime, List<Screening>> ScreeningsByWeek { get; set; }
+
         public void OnGet()
         {
-            Screenings = _dbContext.Screenings
+            var currentDate = DateTime.Now;
+
+            // Fetch screenings that are in the future and include related Film data
+            var screenings = _dbContext.Screenings
                 .Include(s => s.Film)
+                .Where(s => s.Time >= currentDate) // Filter out past screenings
+                .OrderBy(s => s.Time) // Sort by date and time
                 .ToList();
+
+            // Group screenings by week starting from Monday
+            ScreeningsByWeek = screenings
+                .GroupBy(s => StartOfWeek(s.Time))
+                .ToDictionary(g => g.Key, g => g.ToList());
+        }
+
+        // Helper method to get the start of the week (Monday)
+        private DateTime StartOfWeek(DateTime date)
+        {
+            int diff = (7 + (date.DayOfWeek - DayOfWeek.Monday)) % 7;
+            return date.AddDays(-diff).Date;
         }
     }
 }

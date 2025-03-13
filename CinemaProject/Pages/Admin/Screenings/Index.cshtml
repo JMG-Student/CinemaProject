@@ -1,4 +1,4 @@
-﻿@page
+﻿@* @page
 @model CinemaProject.Pages.Admin.Screenings.IndexModel
 @{
 }
@@ -35,4 +35,53 @@
             </tr>
         }
     </tbody>
-</table>
+</table> *@
+
+@page
+@model CinemaProject.Pages.Admin.Screenings.IndexModel
+@{
+}
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h3 class="text-primary">General Screening</h3>
+        </div>
+        <div class="col-6">
+            <a asp-page="Create" class="btn btn-primary">
+                Create new Screening
+            </a>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+
+@foreach (var week in Model.ScreeningsByWeek)
+{
+    <h4>Week starting @week.Key.ToShortDateString()</h4>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Screening Date & Time</th>
+                <th>Screen Number</th>
+                <th>Film Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in week.Value)
+            {
+                <tr>
+                    <td width="50%">@obj.Time</td>
+                    <td width="40%">@obj.ScreenID</td>
+                    <td width="30%">@obj.Film.Title</td>
+                    <td>
+                        <a asp-page="Edit" asp-route-id="@obj.Id">Edit</a> |
+                        <a asp-page="Delete" asp-route-id="@obj.Id">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
