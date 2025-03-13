@@ -16,7 +16,7 @@ namespace CinemaProject.Services
         public IFilmRepo FilmRepo { get; private set; }
         public IGenreRepo GenreRepo { get; private set; }
 
-        public ITicketRepo TicektRepo { get; private set; }
+        public ITicketRepo TicketRepo { get; private set; }
 		public ITicketTypeRepo TicketTypeRepo { get; private set; }
 		public IBookingRepo BookingRepo { get; private set; }
 		public IScreeningRepo ScreeningRepo { get; private set; }
@@ -28,7 +28,7 @@ namespace CinemaProject.Services
             _dbContext = appDBContext;
             FilmRepo = new FilmRepo(_dbContext);
             GenreRepo = new GenreRepo(_dbContext);
-			TicektRepo = new TicketRepo(_dbContext);
+			TicketRepo = new TicketRepo(_dbContext);
 			TicketTypeRepo = new TicketTypeRepo(_dbContext);
 			BookingRepo = new BookingRepo(_dbContext);
 			ScreeningRepo = new ScreeningRepo(_dbContext);

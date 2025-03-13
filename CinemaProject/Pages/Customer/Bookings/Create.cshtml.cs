@@ -30,7 +30,7 @@ namespace CinemaProject.Pages.Customer.Bookings
 		{
 			Screening = _unitOfWork.ScreeningRepo.Get(id);
 			Film = _unitOfWork.FilmRepo.Get(Screening.FilmID);
-			Booking = new Booking();
+			Booking = new Booking() { TotalPrice = 0 };
 			Booking.Tickets = new List<Ticket>();
 		}
 
@@ -55,6 +55,7 @@ namespace CinemaProject.Pages.Customer.Bookings
 							BookingId = Booking.Id,
 							Booking = Booking
 						};
+						Booking.TotalPrice += TicketTypeList[i].Price;
 
 						_unitOfWork.TicketRepo.Add(tic);
 						Booking.Tickets.Add(tic);
@@ -67,8 +68,10 @@ namespace CinemaProject.Pages.Customer.Bookings
 				}
 				//else if(y >= screen capactity){}
 
-					_unitOfWork.BookingRepo.Add(Booking);
+				_unitOfWork.BookingRepo.Add(Booking);
 				_unitOfWork.Save();
+				int id = _unitOfWork.BookingRepo.GetAll().Last().Id;
+				return RedirectToRoute("./Confirmation", new {id = id});
 			}
 			return RedirectToPage("Index");
 		}
