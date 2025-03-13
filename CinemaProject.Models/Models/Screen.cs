@@ -13,10 +13,8 @@ namespace CinemaProject.Models.Models
         public int Id { get; set; }
 
         [Required]
-        public int Rows { get; set; }
-        [Required]
-        public int Columns { get; set; }
-
+        public int CapId { get; set; }
+        public Cap? Cap { get; set; }
 
         public List<Seat>? Seats { get; set; }
     }
