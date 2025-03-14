@@ -41,7 +41,14 @@ namespace CinemaProject.Pages.Admin.Screenings
         {
             if (ModelState.IsValid)
             {
+                if (screening.Time < DateTime.Now)
+                {
+                    ModelState.AddModelError("Screening.Time", "Screening time can't be in the past.");
+                    return await ReloadDropdowns(screening);
+                }
+
                 var film = await _dbContext.Films.FindAsync(screening.FilmID);
+
                 if (film == null)
                 {
                     ModelState.AddModelError("Screening.FilmID", "Invalid film selected.");
