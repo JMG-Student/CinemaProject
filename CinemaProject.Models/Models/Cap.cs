@@ -9,6 +9,6 @@ namespace CinemaProject.Models.Models
 
         public int? Capacity { get; set; }
 
-        public ICollection<Screen> Screens { get; set; }
+        public ICollection<Screen>? Screens { get; set; }
     }
 }

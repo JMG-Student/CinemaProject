@@ -9,6 +9,6 @@ namespace CinemaProject.DataAccess.Repository
 {
     public interface ICapacityRepo : IRepository<Cap>
     {
-        public void Update(Cap Cap);
+        void SaveAll();
     }
 }

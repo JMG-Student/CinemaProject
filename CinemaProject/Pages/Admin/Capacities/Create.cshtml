@@ -7,9 +7,9 @@
 
 <form method="post">
     <div class="form-group">
-        <label asp-for="Cap.Capacity"></label> 
-        <input asp-for="Cap.Capacity" class="form-control" type="number" min="1" required /> 
-        <span asp-validation-for="Cap.Capacity" class="text-danger"></span>
+        <label asp-for="@Model.Cap.Capacity"></label> 
+        <input asp-for="@Model.Cap.Capacity" class="form-control" type="number" min="1" required /> 
+        <span asp-validation-for="@Model.Cap.Capacity" class="text-danger"></span>
     </div>
      <button type="submit" class="btn btn-primary">Create</button>
      <a asp-page="Index" class="btn btn-secondary">Back to Index</a>

@@ -18,9 +18,9 @@ namespace CinemaProject.DataAccess.Repository
             _dbContext = dbContext;
         }
 
-        public Cap Get(int id)
+        public void SaveAll()
         {
-            return _dbContext.Caps.Find(id);
+            _dbContext.SaveChanges();
         }
 
 

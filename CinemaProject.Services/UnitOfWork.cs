@@ -27,11 +27,13 @@ namespace CinemaProject.Services
 
             _dbContext = appDBContext;
             FilmRepo = new FilmRepo(_dbContext);
+            CapacityRepo = new CapacityRepo(_dbContext);
             GenreRepo = new GenreRepo(_dbContext);
 			TicketRepo = new TicketRepo(_dbContext);
 			TicketTypeRepo = new TicketTypeRepo(_dbContext);
 			BookingRepo = new BookingRepo(_dbContext);
 			ScreeningRepo = new ScreeningRepo(_dbContext);
+            ScreenRepo = new ScreenRepo(_dbContext);
 
 		}
 
