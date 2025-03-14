@@ -28,12 +28,13 @@ namespace CinemaProject.Pages.Customer.Bookings
 					{
 						ticket.TicketType = _unitOfWork.TicketTypeRepo.Get(ticket.TicketTypeId);
 						ticket.Screening = _unitOfWork.ScreeningRepo.Get(ticket.ScreeningId);
-						booking.Tickets.Add(ticket);
+						ticket.Screening.Film = _unitOfWork.FilmRepo.Get(ticket.Screening.FilmID);
+						
 					}
 				
 				}
 
-		}
+			}
 
 	}
 }
