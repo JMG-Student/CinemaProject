@@ -27,5 +27,6 @@ namespace CinemaProject.Models.Models
         [Required]
         public int Runtime { get; set; }
 
+        public List<Screening> Screenings { get; set; } = new List<Screening>();
     }
 }

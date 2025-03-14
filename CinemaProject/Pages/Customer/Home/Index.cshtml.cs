@@ -3,6 +3,10 @@ using CinemaProject.Models.Models;
 using CinemaProject.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CinemaProject.Pages.Customer.Home
 {
@@ -16,19 +20,35 @@ namespace CinemaProject.Pages.Customer.Home
 
         public IEnumerable<Film> listOfFilms { get; set; }
 
-        public IEnumerable<Genre> listOfGenres { get; set; }
-
         [BindProperty(SupportsGet = true)]
         public string? SearchString { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public bool IsNextWeek { get; set; }
+
         public void OnGet()
         {
-            listOfFilms = _unitOfWork.FilmRepo.GetAll();
-            listOfGenres = _unitOfWork.GenreRepo.GetAll();
+            var currentDate = DateTime.Now;
+            var weekStart = IsNextWeek ? currentDate.AddDays(7 - (int)currentDate.DayOfWeek) : currentDate.AddDays(-(int)currentDate.DayOfWeek);
+            var weekEnd = weekStart.AddDays(7);
+
+            var allFilms = _unitOfWork.FilmRepo.GetAll()
+                .Include(f => f.Screenings)
+                .Include(f => f.Genre)
+                .ToList();
 
             if (!string.IsNullOrEmpty(SearchString))
             {
-                listOfFilms= listOfFilms.Where(p => p.Title.Contains(SearchString, StringComparison.OrdinalIgnoreCase));
+                allFilms = allFilms
+                    .Where(p => p.Title.Contains(SearchString, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
             }
+
+            listOfFilms = allFilms
+                .Where(f => f.Screenings.Any(s => s.Time >= weekStart && s.Time < weekEnd))
+                .ToList();
+
+            ViewData["IsNextWeek"] = IsNextWeek;
         }
     }
 }
