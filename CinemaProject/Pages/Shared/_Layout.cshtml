@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -17,19 +19,39 @@
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <a class="nav-link textbright" asp-area="" asp-page="/Index">Home</a>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" asp-area="" asp-page="/Admin/Films/Index">Films</a>
-                                <a class="dropdown-item" asp-area="" asp-page="/Admin/Genres/Index">Genres</a>
-                                <a class="dropdown-item" asp-area="" asp-page="/Admin/Screens/Index">Screens</a>
-                                <a class="dropdown-item" asp-area="" asp-page="/Admin/Capacities/Index">Capacities</a>
-                                <a class="dropdown-item" asp-area="" asp-page="/Admin/Screenings/Index">Screenings</a>
-                            </div>
-                        </li>
-                    </ul>
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
+                                    <div class="dropdown-menu">
+                                        <a class="dropdown-item" asp-area="" asp-page="/Admin/Films/Index">Films</a>
+                                        <a class="dropdown-item" asp-area="" asp-page="/Admin/Genres/Index">Genres</a>
+                                        <a class="dropdown-item" asp-area="" asp-page="/Admin/Screens/Index">Screens</a>
+                                        <a class="dropdown-item" asp-area="" asp-page="/Admin/Capacities/Index">Capacities</a>
+                                        <a class="dropdown-item" asp-area="" asp-page="/Admin/Screenings/Index">Screenings</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        }
+                        <ul class="navbar-nav d-flex flex-grow-1 justify-content-end">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Logout">Logout</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav flex-grow-1 justify-content-end">
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
+                            </li>
+                        </ul>
+                    }
                 </div>
             </div>
         </nav>

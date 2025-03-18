@@ -19,7 +19,7 @@ namespace CinemaProject.Pages.Admin.Capacities
 
         public IActionResult OnPost(Cap cap)
         {
-            if (!ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 _unitOfWork.CapacityRepo.Add(cap);
                 _unitOfWork.Save();

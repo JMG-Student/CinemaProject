@@ -2,10 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using CinemaProject.Models.Models;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CinemaProject.DataAccess.DataAccess
 {
-    public class AppDBContext : DbContext
+    public class AppDBContext : IdentityDbContext
     {
 
         public AppDBContext(DbContextOptions<AppDBContext> options) : base(options)
@@ -22,6 +23,5 @@ namespace CinemaProject.DataAccess.DataAccess
         public DbSet<User> Users { get; set; }
         public DbSet<Genre> Genres { get; set; }
         public DbSet<Cap> Caps { get; set; }
-
     }
 }
