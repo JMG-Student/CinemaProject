@@ -17,7 +17,7 @@
                 <label asp-for="@Model.ticketQuantities[i]">@Model.TicketTypeList[i].Name</label>
                 <input asp-for="@Model.ticketQuantities[i]" type="number" class="form-control" required />
             </div>
-        }
+        } 
 
         <div class="mb-3">
             <label asp-for="@Model.Booking.CustomerEmail" class="form-label">Email address</label>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="mb-3">
-            <label asp-for="@Model.Booking.CustomerName" class="form-label">Full Legal Name</label>
+            <label asp-for="@Model.Booking.CustomerName" class="form-label">Full Name</label>
             <input asp-for="@Model.Booking.CustomerName" type="text" class="form-control">
             <span asp-validation-for="@Model.Booking.CustomerName" class="text-danger"></span>
         </div>
