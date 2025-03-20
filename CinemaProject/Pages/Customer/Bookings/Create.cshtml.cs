@@ -13,61 +13,69 @@ namespace CinemaProject.Pages.Customer.Bookings
 		public Screening Screening { get; set; }
 		public List<TicketType> TicketTypeList = new List<TicketType>();
 		public List<int> ticketQuantities = new List<int>();
-		public Boolean isTickets = false;
+		public int ScreeningId { get; set; }
 
-		public CreateModel(IUnitOfWork unitOfWork)
-		{
-			_unitOfWork = unitOfWork;
+        public CreateModel(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
 
-			foreach (var ticketType in _unitOfWork.TicketTypeRepo.GetAll())
-			{
-				TicketTypeList.Add(ticketType);
-				ticketQuantities.Add(0);
-			}
-		}
+            foreach (var ticketType in _unitOfWork.TicketTypeRepo.GetAll())
+            {
+                TicketTypeList.Add(ticketType);
+                ticketQuantities.Add(0);
+            }
+        }
 
 		
 		public void OnGet(int id)
 		{
 			Screening = _unitOfWork.ScreeningRepo.Get(id);
 			Film = _unitOfWork.FilmRepo.Get(Screening.FilmID);
-			Booking = new Booking();
+			Booking = new Booking() { TotalPrice = 0 };
 			Booking.Tickets = new List<Ticket>();
+			ScreeningId = id;
+
 		}
 
-		public IActionResult OnPost()
+		public IActionResult OnPost(Booking booking, List<int> ticketQuantities, int ScreeningId)
 		{
 			if (ModelState.IsValid)
 			{
+				int y = 0;
+				_unitOfWork.BookingRepo.Add(booking);
+				_unitOfWork.Save();
 				for (int i = 0; i < TicketTypeList.Count; i++)
 				{
 
-					for (int x = 0; x < ticketQuantities[i]; x++)
-					{
-						isTickets = true;
+                    for (int x = 0; x < ticketQuantities[i]; x++)
+                    {
+                        y++;
 
 						Ticket tic = new Ticket
 						{
 							TicketTypeId = TicketTypeList[i].Id,
 							TicketType = TicketTypeList[i],
-							ScreeningId = Screening.Id,
-							Screening = Screening,
-							BookingId = Booking.Id,
-							Booking = Booking
+							ScreeningId = ScreeningId,
+							BookingId = booking.Id,
 						};
+						booking.TotalPrice += TicketTypeList[i].Price;
 
 						_unitOfWork.TicketRepo.Add(tic);
-						Booking.Tickets.Add(tic);
+
 					}
 
 				}
-				if (isTickets == false) 
+				
+				if (y == 0) 
 				{
 					return RedirectToPage("Index");
 				}
+				//else if(y >= screen capactity){}
 
-				_unitOfWork.BookingRepo.Add(Booking);
+				_unitOfWork.BookingRepo.Update(booking);
 				_unitOfWork.Save();
+				
+				return RedirectToPage("Confirmation", new {id = booking.Id});
 			}
 			return RedirectToPage("Index");
 		}

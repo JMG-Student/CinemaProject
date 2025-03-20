@@ -31,5 +31,10 @@ namespace CinemaProject.DataAccess.Repository
                 filmFromDB.PosterLink = film.PosterLink;
             }
         }
+
+        public IQueryable<Film> GetAll()
+        {
+            return _dbContext.Films.AsQueryable();
+        }
     }
 }

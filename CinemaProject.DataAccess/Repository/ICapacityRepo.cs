@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace CinemaProject.DataAccess.Repository
 {
-    public interface IFilmRepo : IRepository<Film>
+    public interface ICapacityRepo : IRepository<Cap>
     {
-        public void Update(Film film);
-        public IQueryable<Film> GetAll();
+        void SaveAll();
     }
 }
