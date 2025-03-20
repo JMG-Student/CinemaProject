@@ -21,8 +21,9 @@ namespace CinemaProject.Services
 		public IScreeningRepo ScreeningRepo { get; private set; }
         public ICapacityRepo CapacityRepo { get; private set; }
         public IScreenRepo ScreenRepo { get; private set; }
+        public IReportRepo ReportRepo { get; private set; }
 
-		public UnitOfWork(AppDBContext appDBContext)
+        public UnitOfWork(AppDBContext appDBContext)
         {
 
             _dbContext = appDBContext;
@@ -34,8 +35,10 @@ namespace CinemaProject.Services
 			BookingRepo = new BookingRepo(_dbContext);
 			ScreeningRepo = new ScreeningRepo(_dbContext);
             ScreenRepo = new ScreenRepo(_dbContext);
+            ReportRepo = new ReportRepo(_dbContext);
 
-		}
+
+        }
 
         public void Dispose()
         {

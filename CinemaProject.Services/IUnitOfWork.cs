@@ -23,6 +23,7 @@ namespace CinemaProject.Services
 
         ICapacityRepo CapacityRepo { get; }
         IScreenRepo ScreenRepo { get; }
+        IReportRepo ReportRepo { get; }
 
 
         void Save();
