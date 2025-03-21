@@ -17,13 +17,14 @@ namespace CinemaProject.Pages.Customer.Bookings
         public List<int> ticketQuantities = new List<int>();
         public int ScreeningId { get; set; }
 
+        //card deatials 
         [Required]
         public string CardHolderName { get; set; }
-
+        //card number has to have a length between 12-19
         [Required]
         [RegularExpression(@"^\d{12,19}$", ErrorMessage = "Card number must be between 12 and 19 digits.")]
         public string CardNumber { get; set; }
-
+        //CCV has to have a lengh of 3
         [Required]
         [RegularExpression(@"^\d{3}$", ErrorMessage = "CCV must be exactly 3 digits.")]
         public string CCV { get; set; }
@@ -58,6 +59,7 @@ namespace CinemaProject.Pages.Customer.Bookings
         {
             if (ModelState.IsValid)
             {
+                //make sure card is not out of date
                 if (!DateTime.TryParseExact(ExpirationDate, "MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime expiry))
                 {
                     ModelState.AddModelError("ExpirationDate", "Invalid format. Use MM/YYYY.");
