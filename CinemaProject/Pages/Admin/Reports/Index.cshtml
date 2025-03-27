@@ -1,7 +1,20 @@
-﻿@page
+﻿@* @page
 @model CinemaProject.Pages.Admin.Report.IndexModel
 @{
 }
+<h2>Booking Report</h2>
+
+<div class="border p-3 mt-4">
+    <p><strong>Generated On:</strong> @Model.ReportData.GeneratedOn</p>
+    <p><strong>Total Bookings:</strong> @Model.ReportData.TotalBookings</p>
+    <p><strong>Total Tickets Sold:</strong> @Model.ReportData.TotalTicketsSold</p>
+    <p><strong>Total Revenue:</strong> @Model.ReportData.TotalRevenue.ToString("C")</p>
+</div>
+
+<a asp-page="/Admin/Dashboard" class="btn btn-secondary">Back to Dashboard</a> *@
+@page
+@model CinemaProject.Pages.Admin.Reports.IndexModel
+
 <h2>Booking Report</h2>
 
 <div class="border p-3 mt-4">

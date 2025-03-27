@@ -2,7 +2,7 @@ using CinemaProject.Models.Models;
 using CinemaProject.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using CinemaProject.Models.Models;
+
 
 namespace CinemaProject.Pages.Customer.Bookings
 {
