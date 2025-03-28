@@ -38,15 +38,40 @@
             <a asp-page="Index" class="btn btn-secondary">Back to Index</a>
         </div>
     </div>
+    @if (!Model.NotEnoughSeats)
+    {
+        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentModalLabel">Not enough Seats Available</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <lable>Not enought seats left for this screening.</lable>
+                        <lable>@Model.availableSeats</lable>
+               
+                        <div class="text-center">
+                            <a asp-page="../Home/Index" class="btn btn-secondary">Back to Home</a>
 
-    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="paymentModalLabel">Enter Card Details</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-body">
+            </div>
+        </div>
+
+    }
+    else
+    {
+
+        <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentModalLabel">Enter Card Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
                         <input type="hidden" asp-for="ScreeningId" />
 
                         <div class="mb-3">
@@ -76,7 +101,12 @@
                         <div class="text-center">
                             <button type="submit" class="btn btn-success">Confirm Payment</button>
                         </div>
- </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    </form>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

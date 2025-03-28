@@ -15,6 +15,7 @@ namespace CinemaProject.Pages.Customer.Bookings
         public Screening Screening { get; set; }
         public List<TicketType> TicketTypeList = new List<TicketType>();
         public List<int> ticketQuantities = new List<int>();
+        public bool NotEnoughSeats { get; set; } = false;
         public int ScreeningId { get; set; }
 
         //card deatials 
@@ -89,8 +90,16 @@ namespace CinemaProject.Pages.Customer.Bookings
 
                 if (ticketsOnHold > availableSeats)
                 {
-                    return RedirectToPage("/Customer/Home/Index");
+                    NotEnoughSeats = true;
+
+                    // Reload data for the page so it's not null on redisplay
+                    Screening = _unitOfWork.ScreeningRepo.Get(ScreeningId);
+                    Film = _unitOfWork.FilmRepo.Get(Screening.FilmID);
+                    Booking = booking;
+                    this.ticketQuantities = ticketQuantities;
+                    return Page();
                 }
+
 
                 for (int i = 0; i < TicketTypeList.Count; i++)
                 {
