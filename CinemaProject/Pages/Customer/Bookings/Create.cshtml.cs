@@ -15,16 +15,16 @@ namespace CinemaProject.Pages.Customer.Bookings
 		public List<int> ticketQuantities = new List<int>();
 		public int ScreeningId { get; set; }
 
-		public CreateModel(IUnitOfWork unitOfWork)
-		{
-			_unitOfWork = unitOfWork;
+        public CreateModel(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
 
-			foreach (var ticketType in _unitOfWork.TicketTypeRepo.GetAll())
-			{
-				TicketTypeList.Add(ticketType);
-				ticketQuantities.Add(0);
-			}
-		}
+            foreach (var ticketType in _unitOfWork.TicketTypeRepo.GetAll())
+            {
+                TicketTypeList.Add(ticketType);
+                ticketQuantities.Add(0);
+            }
+        }
 
 		
 		public void OnGet(int id)
@@ -47,9 +47,9 @@ namespace CinemaProject.Pages.Customer.Bookings
 				for (int i = 0; i < TicketTypeList.Count; i++)
 				{
 
-					for (int x = 0; x < ticketQuantities[i]; x++)
-					{
-						y++;
+                    for (int x = 0; x < ticketQuantities[i]; x++)
+                    {
+                        y++;
 
 						Ticket tic = new Ticket
 						{

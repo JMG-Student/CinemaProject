@@ -21,6 +21,10 @@ namespace CinemaProject.Services
 
 		IScreeningRepo ScreeningRepo { get; }
 
-		void Save();
+        ICapacityRepo CapacityRepo { get; }
+        IScreenRepo ScreenRepo { get; }
+
+
+        void Save();
     }
 }
