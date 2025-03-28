@@ -6,28 +6,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CinemaProject</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/bootstrap.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/CinemaProject.styles.css" asp-append-version="true" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-lg bg-primary">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-page="/Customer/Home/Index">CinemaProject</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <a class="nav-link textbright" asp-area="" asp-page="/Index">Home</a>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                <div class="collapse navbar-collapse" id="navbarColor01">
+
                     @if (SignInManager.IsSignedIn(User))
                     {
                         @if (User.IsInRole("Admin"))
                         {
-                            <ul class="navbar-nav flex-grow-1">
+                            <ul class="navbar-nav me-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link active" asp-area="" asp-page="/Index">Home</a>
+                                </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Administration</a>
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" asp-area="" asp-page="/Admin/Films/Index">Films</a>
                                         <a class="dropdown-item" asp-area="" asp-page="/Admin/Genres/Index">Genres</a>
@@ -38,6 +35,7 @@
                                 </li>
                             </ul>
                         }
+                    
                         <ul class="navbar-nav d-flex flex-grow-1 justify-content-end">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Logout">Logout</a>
@@ -46,12 +44,18 @@
                     }
                     else
                     {
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" asp-area="" asp-page="/Index">Home</a>
+                            </li>
+                        </ul>
                         <ul class="navbar-nav flex-grow-1 justify-content-end">
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
                             </li>
                         </ul>
                     }
+                    
                 </div>
             </div>
         </nav>
