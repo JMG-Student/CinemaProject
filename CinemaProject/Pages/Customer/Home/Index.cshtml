@@ -15,7 +15,9 @@
         </form>
     </p>
 </div>
-<br /><br /><br />
+<br />
+<br />
+<br />
 <div class="row container pb-3 backgroundWhite">
     <div style="display: flex; justify-content: space-between; align-items: center;">
         <h2 style="text-align: center">@heading</h2>
@@ -27,7 +29,7 @@
             <div class="film-item">
                 <div class="card bg-white rounded shadow-sm" style="border:1px solid #222; transition: transform 0.2s; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#descriptionModal-@film.Id">
                     <div class="card-img-container">
-                        <img class="card-img-top img-fluid"src="@film.PosterLink"alt="@film.Title"style="width: 100%; height: auto;" />
+                        <img class="card-img-top img-fluid" src="@film.PosterLink" alt="@film.Title" style="width: 100%; height: auto;" />
                     </div>
                 </div>
             </div>
@@ -65,9 +67,9 @@
                                 var weekStart = isNextWeek ? currentDate.AddDays(7 - (int)currentDate.DayOfWeek) : currentDate.AddDays(-(int)currentDate.DayOfWeek);
                                 var weekEnd = weekStart.AddDays(7);
                                 var screenings = film.Screenings
-                                    .Where(s => s.Time >= weekStart && s.Time < weekEnd)
-                                    .OrderBy(s => s.Time)
-                                    .ToList();
+                                .Where(s => s.Time >= weekStart && s.Time < weekEnd)
+                                .OrderBy(s => s.Time)
+                                .ToList();
                             }
                             @if (screenings.Any())
                             {
@@ -94,7 +96,7 @@
                                                     <a asp-page="/Customer/Bookings/Create" asp-route-Id="@screening.Id" class="btn btn-primary">Book Tickets</a>
                                                 </td>
                                             </tr>
-                                        }   
+                                        }
                                     </tbody>
                                 </table>
                             }

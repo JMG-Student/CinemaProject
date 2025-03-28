@@ -17,7 +17,7 @@
                 <label asp-for="@Model.ticketQuantities[i]">@Model.TicketTypeList[i].Name</label>
                 <input asp-for="@Model.ticketQuantities[i]" type="number" class="form-control" required />
             </div>
-        }
+        } 
 
         <div class="mb-3">
             <label asp-for="@Model.Booking.CustomerEmail" class="form-label">Email address</label>
@@ -26,21 +26,59 @@
         </div>
 
         <div class="mb-3">
-            <label asp-for="@Model.Booking.CustomerName" class="form-label">Full Legal Name</label>
+            <label asp-for="@Model.Booking.CustomerName" class="form-label">Full Name</label>
             <input asp-for="@Model.Booking.CustomerName" type="text" class="form-control">
             <span asp-validation-for="@Model.Booking.CustomerName" class="text-danger"></span>
         </div>
 
         <div>
-            <button type="submit" class="btn btn-primary">Create</button>
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#paymentModal">
+                Proceed to Payment
+            </button>            
             <a asp-page="Index" class="btn btn-secondary">Back to Index</a>
         </div>
     </div>
-</form>
+
+    <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="paymentModalLabel">Enter Card Details</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <input type="hidden" asp-for="ScreeningId" />
+
+                        <div class="mb-3">
+                            <label asp-for="CardHolderName" class="form-label">Card Holder's Name</label>
+                            <input asp-for="CardHolderName" class="form-control" required />
+                            <span asp-validation-for="CardHolderName" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CardNumber" class="form-label">Card Number</label>
+                            <input asp-for="CardNumber" class="form-control" required />
+                            <span asp-validation-for="CardNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="CCV" class="form-label">CCV</label>
+                            <input asp-for="CCV" class="form-control" required />
+                            <span asp-validation-for="CCV" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="ExpirationDate" class="form-label">Expiration Date (MM/YYYY)</label>
+                            <input asp-for="ExpirationDate" class="form-control" required />
+                            <span asp-validation-for="ExpirationDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success">Confirm Payment</button>
+                        </div>
+ </form>
+
 @section Scripts {
-    @{
-        <partial name="_validationScriptsPartial" />
-    }
+    <partial name="_ValidationScriptsPartial" />
+}
 
-
-} 
