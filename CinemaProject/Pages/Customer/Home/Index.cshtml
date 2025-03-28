@@ -2,7 +2,7 @@
 @model CinemaProject.Pages.Customer.Home.IndexModel
 @{
     bool isNextWeek = ViewData["IsNextWeek"] as bool? ?? false;
-    string heading = isNextWeek ? "Next Week's Screenings" : "Films Screening This Week";
+    string heading = isNextWeek ? "Next Week's Screenings" : "This Week's Screenings";
     string toggleButtonText = isNextWeek ? "Back to Current Week" : "Next Week's Screenings";
 }
 <div class="row container pb-3">
