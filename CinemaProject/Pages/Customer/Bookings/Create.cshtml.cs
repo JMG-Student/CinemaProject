@@ -15,7 +15,11 @@ namespace CinemaProject.Pages.Customer.Bookings
         public Screening Screening { get; set; }
         public List<TicketType> TicketTypeList = new List<TicketType>();
         public List<int> ticketQuantities = new List<int>();
+        public int availableSeats;
+
         public bool NotEnoughSeats { get; set; } = false;
+
+
         public int ScreeningId { get; set; }
 
         //card deatials 
@@ -53,6 +57,13 @@ namespace CinemaProject.Pages.Customer.Bookings
             Booking.Tickets = new List<Ticket>();
             ScreeningId = id;
 
+            //getting the screening capacity
+            Screening screening = _unitOfWork.ScreeningRepo.Get(ScreeningId);
+            Screen screen = _unitOfWork.ScreenRepo.Get(screening.ScreenID);
+            Cap cap = _unitOfWork.CapacityRepo.Get(screen.CapId);
+            int bookedTickets = _unitOfWork.TicketRepo.GetAll().Count(t => t.ScreeningId == ScreeningId);
+            availableSeats = (int)cap.Capacity - bookedTickets;
+
         }
 
         public IActionResult OnPost(Booking booking, List<int> ticketQuantities, int ScreeningId)
@@ -78,15 +89,15 @@ namespace CinemaProject.Pages.Customer.Bookings
                     return RedirectToPage("Index");
 
                 }
-                //getting the screening capacity
-                Screening screening = _unitOfWork.ScreeningRepo.Get(ScreeningId);
-                Screen screen = _unitOfWork.ScreenRepo.Get(screening.ScreenID);
-                Cap cap = _unitOfWork.CapacityRepo.Get(screen.CapId);
+               // //getting the screening capacity
+               // Screening screening = _unitOfWork.ScreeningRepo.Get(ScreeningId);
+               // Screen screen = _unitOfWork.ScreenRepo.Get(screening.ScreenID);
+               // Cap cap = _unitOfWork.CapacityRepo.Get(screen.CapId);
 
-                _unitOfWork.BookingRepo.Add(booking);
-                _unitOfWork.Save();
-                int bookedTickets = _unitOfWork.TicketRepo.GetAll().Count(t => t.ScreeningId == ScreeningId);
-                int availableSeats = (int)cap.Capacity - bookedTickets;
+               // _unitOfWork.BookingRepo.Add(booking);
+               // _unitOfWork.Save();
+               // //int bookedTickets = _unitOfWork.TicketRepo.GetAll().Count(t => t.ScreeningId == ScreeningId);
+               //// int availableSeats = (int)cap.Capacity - bookedTickets;
 
                 if (ticketsOnHold > availableSeats)
                 {
