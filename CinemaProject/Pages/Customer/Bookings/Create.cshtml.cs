@@ -20,9 +20,8 @@ namespace CinemaProject.Pages.Customer.Bookings
         //card deatials 
         [Required]
         public string CardHolderName { get; set; }
-        //card number has to have a length between 12-19
         [Required]
-        [RegularExpression(@"^\d{12,19}$", ErrorMessage = "Card number must be between 12 and 19 digits.")]
+        [RegularExpression(@"^\d{16}$", ErrorMessage = "Card number must be 16 digits.")]
         public string CardNumber { get; set; }
         //CCV has to have a lengh of 3
         [Required]
@@ -123,8 +122,7 @@ namespace CinemaProject.Pages.Customer.Bookings
             }
             else
             {
-                //TO BE OR NOT TO BE FIXED BY AOIFE / REALLY JAMES
-                //ModelState.AddModelError("", "To many Tickets");
+
                 return RedirectToPage("/Customer/Home/Index");
             }
 
