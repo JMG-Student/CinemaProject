@@ -12,6 +12,7 @@ namespace CinemaProject.Models.Models
         [Key]
         public int Id { get; set; }
 
+        public DateTime BookingDate { get; set; } = DateTime.Now;
         public string CustomerEmail { get; set; }
         public string CustomerName { get; set; }
 

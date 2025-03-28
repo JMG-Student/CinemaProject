@@ -1,14 +1,73 @@
-﻿
-@page
-@model CinemaProject.Pages.Admin.Reports.IndexModel
+﻿@page
+@model CinemaProject.Pages.Admin.Reports.WeeklyModel
 
-<h2>Report</h2>
+<h2>Weekly Report Generator</h2>
 
-<div class="border p-3 mt-4">
-    <p><strong>Generated On:</strong> @Model.ReportData.GeneratedOn</p>
-    <p><strong>Total Bookings:</strong> @Model.ReportData.TotalBookings</p>
-    <p><strong>Total Tickets Sold:</strong> @Model.ReportData.TotalTicketsSold</p>
-    <p><strong>Total Revenue:</strong> @Model.ReportData.TotalRevenue.ToString("C")</p>
+<div class="row mb-4">
+    <div class="col-md-6">
+        <form method="post" class="card">
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label asp-for="StartDate" class="form-label">Start Date</label>
+                        <input asp-for="StartDate" type="date" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label asp-for="EndDate" class="form-label">End Date</label>
+                        <input asp-for="EndDate" type="date" class="form-control">
+                    </div>
+                </div>
+                <button type="submit" asp-page-handler="Generate" class="btn btn-primary mt-3">
+                    Generate and Save Report
+                </button>
+            </div>
+        </form>
+    </div>
 </div>
 
-<a asp-page="/Admin/Dashboard" class="btn btn-secondary">Back to Dashboard</a>
+@if (Model.CurrentReport != null)
+{
+    <div class="card mb-4">
+        <div class="card-header">
+            <h4>@Model.CurrentReport.ReportTitle</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">Generated On:</dt>
+                <dd class="col-sm-9">@Model.CurrentReport.GeneratedOn.ToString("f")</dd>
+
+                <dt class="col-sm-3">Total Bookings:</dt>
+                <dd class="col-sm-9">@Model.CurrentReport.TotalBookings</dd>
+
+                <dt class="col-sm-3">Total Tickets Sold:</dt>
+                <dd class="col-sm-9">@Model.CurrentReport.TotalTicketsSold</dd>
+
+                <dt class="col-sm-3">Total Revenue:</dt>
+                <dd class="col-sm-9">@Model.CurrentReport.TotalRevenue.ToString("C")</dd>
+            </dl>
+        </div>
+    </div>
+}
+
+<h4 class="mt-4">Historical Reports</h4>
+<table class="table table-hover">
+    <thead class="table-light">
+        <tr>
+            <th>Week</th>
+            <th>Tickets Sold</th>
+            <th>Total Revenue</th>
+            <th>Generated On</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var report in Model.PastReports)
+        {
+            <tr>
+                <td>@report.ReportTitle</td>
+                <td>@report.TotalTicketsSold</td>
+                <td>@report.TotalRevenue.ToString("C")</td>
+                <td>@report.GeneratedOn.ToString("g")</td>
+            </tr>
+        }
+    </tbody>
+</table>

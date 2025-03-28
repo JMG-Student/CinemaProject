@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CinemaProject.DataAccess.Repository
 {
-    public interface IReportRepo
+    public interface IReportRepo : IRepository<Report>
     {
         Report GenerateReport();
     }

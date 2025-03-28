@@ -11,6 +11,8 @@ namespace CinemaProject.Models.Models
     {
         [Key]
         public int Id { get; set; }
+
+        public string ReportTitle { get; set; }
         public DateTime GeneratedOn { get; set; } = DateTime.Now;
 
         public int TotalBookings { get; set; }
