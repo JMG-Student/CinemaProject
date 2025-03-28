@@ -37,6 +37,11 @@
                                 </li>
                             </ul>
                         }
+
+                        <form asp-page="/Customer/Home" method="get" class="navbar-form">
+                            <input type="text" name="searchString" placeholder="Search Movies" class="form-control" />
+                            <button type="submit" class="btn btn-primary">Search</button>
+                        </form>
                     
                         <ul class="navbar-nav d-flex flex-grow-1 justify-content-end">
                             <li class="nav-item">
