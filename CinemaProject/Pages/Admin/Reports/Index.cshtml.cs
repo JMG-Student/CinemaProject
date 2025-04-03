@@ -1,9 +1,8 @@
 using CinemaProject.Models.Models;
 using CinemaProject.Services;
-using DinkToPdf;
-using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using SelectPdf; // Using SelectPdf for the PDF export
 
 namespace CinemaProject.Pages.Admin.Reports
 {
@@ -12,14 +11,13 @@ namespace CinemaProject.Pages.Admin.Reports
         private readonly IUnitOfWork _unitOfWork;
 
         [BindProperty(SupportsGet = true)]
-        public DateTime StartDate { get; set; } = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + 1); // Monday
+        public DateTime StartDate { get; set; }
 
         [BindProperty(SupportsGet = true)]
-        public DateTime EndDate { get; set; } = DateTime.Today.AddDays(7 - (int)DateTime.Today.DayOfWeek).Date.AddDays(1).AddTicks(-1); // Sunday 23:59:59
+        public DateTime EndDate { get; set; }
 
         public Report CurrentReport { get; set; } = new();
         public List<Report> PastReports { get; set; } = new();
-
         public Dictionary<string, (int TicketsSold, decimal Revenue)> FilmStats { get; set; } = new();
 
         public ReportModel(IUnitOfWork unitOfWork)
@@ -29,6 +27,13 @@ namespace CinemaProject.Pages.Admin.Reports
 
         public void OnGet()
         {
+            // Only set default values if none were supplied in the query string
+            if (StartDate == default)
+                StartDate = DateTime.Today.AddDays(-(int)DateTime.Today.DayOfWeek + 1); // Monday
+
+            if (EndDate == default)
+                EndDate = DateTime.Today.AddDays(7 - (int)DateTime.Today.DayOfWeek).Date.AddDays(1).AddTicks(-1); // Sunday 23:59:59
+
             LoadData();
         }
 
@@ -38,7 +43,13 @@ namespace CinemaProject.Pages.Admin.Reports
                 return Page();
 
             GenerateAndSaveReport();
-            return RedirectToPage();
+
+            // Pass selected dates back in query to preserve them
+            return RedirectToPage(new
+            {
+                StartDate = StartDate.ToString("yyyy-MM-dd"),
+                EndDate = EndDate.ToString("yyyy-MM-dd")
+            });
         }
 
         private void LoadData()
@@ -58,9 +69,7 @@ namespace CinemaProject.Pages.Admin.Reports
                 .FirstOrDefault(r => r.ReportTitle == reportTitle);
 
             if (existing != null)
-            {
                 return;
-            }
 
             var report = GenerateReport(StartDate, EndDate);
             _unitOfWork.ReportRepo.Add(report);
@@ -109,32 +118,27 @@ namespace CinemaProject.Pages.Admin.Reports
                 TotalRevenue = tickets.Sum(t => t.TicketType?.Price ?? 0)
             };
         }
+
         public IActionResult OnPostDownloadPdf()
         {
             var html = $@"
-        <h2>{CurrentReport.ReportTitle}</h2>
-        <p><strong>Generated On:</strong> {CurrentReport.GeneratedOn}</p>
-        <p><strong>Total Bookings:</strong> {CurrentReport.TotalBookings}</p>
-        <p><strong>Total Tickets Sold:</strong> {CurrentReport.TotalTicketsSold}</p>
-        <p><strong>Total Revenue:</strong> {CurrentReport.TotalRevenue:C}</p>
-        <hr/>
-        <h4>Tickets Sold Per Film</h4>
-        <ul>
-            {string.Join("", FilmStats.Select(f => $"<li>{f.Key}: {f.Value.TicketsSold} tickets — {f.Value.Revenue:C}</li>"))}
-        </ul>
-    ";
+                <h2>{CurrentReport.ReportTitle}</h2>
+                <p><strong>Generated On:</strong> {CurrentReport.GeneratedOn}</p>
+                <p><strong>Total Bookings:</strong> {CurrentReport.TotalBookings}</p>
+                <p><strong>Total Tickets Sold:</strong> {CurrentReport.TotalTicketsSold}</p>
+                <p><strong>Total Revenue:</strong> {CurrentReport.TotalRevenue:C}</p>
+                <hr/>
+                <h4>Tickets Sold Per Film</h4>
+                <ul>
+                    {string.Join("", FilmStats.Select(f => $"<li>{f.Key}: {f.Value.TicketsSold} tickets — {f.Value.Revenue:C}</li>"))}
+                </ul>";
 
-            var converter = new SelectPdf.HtmlToPdf();
+            var converter = new HtmlToPdf();
             var doc = converter.ConvertHtmlString(html);
             var pdf = doc.Save();
-
             doc.Close();
 
             return File(pdf, "application/pdf", "WeeklyReport.pdf");
         }
-
-
-
     }
-
 }
