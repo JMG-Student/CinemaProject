@@ -3,7 +3,7 @@
 
 <h2>Weekly Report Generator</h2>
 
-<div class="row mb-4">
+<<div class="row mb-4">
     <div class="col-md-6">
         <form method="post" class="card">
             <div class="card-body">
@@ -17,19 +17,21 @@
                         <input asp-for="EndDate" type="date" class="form-control" />
                     </div>
                 </div>
+
                 <button type="submit" asp-page-handler="Generate" class="btn btn-primary mt-3">
                     Generate and Save Report
                 </button>
-                <form method="post" asp-page-handler="DownloadPdf">
-                    <button type="submit" class="btn btn-outline-secondary">
-                        Download PDF
-                    </button>
-                </form>
-
             </div>
+        </form>
+
+        <form method="post" asp-page-handler="DownloadPdf" class="mt-2">
+            <button type="submit" class="btn btn-outline-secondary">
+                📄 Download PDF
+            </button>
         </form>
     </div>
 </div>
+
 
 @if (Model.CurrentReport != null)
 {
@@ -79,25 +81,3 @@
     </table>
 }
 
-<h4 class="mt-4">Historical Reports</h4>
-<table class="table table-hover">
-    <thead class="table-light">
-        <tr>
-            <th>Week</th>
-            <th>Tickets Sold</th>
-            <th>Total Revenue</th>
-            <th>Generated On</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var report in Model.PastReports)
-        {
-            <tr>
-                <td>@report.ReportTitle</td>
-                <td>@report.TotalTicketsSold</td>
-                <td>@report.TotalRevenue.ToString("C")</td>
-                <td>@report.GeneratedOn.ToString("g")</td>
-            </tr>
-        }
-    </tbody>
-</table>

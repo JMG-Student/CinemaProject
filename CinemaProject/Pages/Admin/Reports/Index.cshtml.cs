@@ -52,16 +52,13 @@ namespace CinemaProject.Pages.Admin.Reports
 
         private void GenerateAndSaveReport()
         {
-            // Generate the expected report title
             string reportTitle = $"{StartDate:ddd dd/MM/yyyy} - {EndDate:ddd dd/MM/yyyy}";
 
-            // Prevent saving duplicates by exact match on title
             var existing = _unitOfWork.ReportRepo.GetAll()
                 .FirstOrDefault(r => r.ReportTitle == reportTitle);
 
             if (existing != null)
             {
-                // Report already exists for this exact range, skip
                 return;
             }
 
@@ -92,7 +89,6 @@ namespace CinemaProject.Pages.Admin.Reports
                 }
             }
 
-            // Build per-film stats
             FilmStats = tickets
                 .Where(t => t.Screening?.Film != null)
                 .GroupBy(t => t.Screening.Film.Title)
@@ -115,41 +111,28 @@ namespace CinemaProject.Pages.Admin.Reports
         }
         public IActionResult OnPostDownloadPdf()
         {
-            var reportHtml = $@"
+            var html = $@"
         <h2>{CurrentReport.ReportTitle}</h2>
         <p><strong>Generated On:</strong> {CurrentReport.GeneratedOn}</p>
         <p><strong>Total Bookings:</strong> {CurrentReport.TotalBookings}</p>
         <p><strong>Total Tickets Sold:</strong> {CurrentReport.TotalTicketsSold}</p>
         <p><strong>Total Revenue:</strong> {CurrentReport.TotalRevenue:C}</p>
         <hr/>
-        <h4>Per Film:</h4>
+        <h4>Tickets Sold Per Film</h4>
         <ul>
             {string.Join("", FilmStats.Select(f => $"<li>{f.Key}: {f.Value.TicketsSold} tickets — {f.Value.Revenue:C}</li>"))}
         </ul>
     ";
 
-            var pdf = new HtmlToPdfDocument()
-            {
-                GlobalSettings = new GlobalSettings
-                {
-                    PaperSize = PaperKind.A4,
-                    Orientation = Orientation.Portrait,
-                    DocumentTitle = "Weekly Report"
-                },
-                Objects = {
-            new ObjectSettings
-            {
-                HtmlContent = reportHtml,
-                WebSettings = { DefaultEncoding = "utf-8" }
-            }
-        }
-            };
+            var converter = new SelectPdf.HtmlToPdf();
+            var doc = converter.ConvertHtmlString(html);
+            var pdf = doc.Save();
 
-            var converter = HttpContext.RequestServices.GetService<IConverter>();
-            var file = converter.Convert(pdf);
+            doc.Close();
 
-            return File(file, "application/pdf", "WeeklyReport.pdf");
+            return File(pdf, "application/pdf", "WeeklyReport.pdf");
         }
+
 
 
     }
