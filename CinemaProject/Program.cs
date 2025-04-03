@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CinemaProject.DataAccess.DataAccess;
 using CinemaProject.Services;
+using DinkToPdf.Contracts;
+using DinkToPdf;
 
 public class Program
 {
@@ -15,6 +17,7 @@ public class Program
         // needs package entityframeworkcore.sqlserver
         builder.Services.AddDbContext<AppDBContext>(options => options.UseSqlServer(
             builder.Configuration.GetConnectionString("DefaultConnection")));
+        builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
         builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<AppDBContext>();
 

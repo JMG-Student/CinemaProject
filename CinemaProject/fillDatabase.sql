@@ -22,10 +22,10 @@ INSERT INTO [dbo].[Films] ([Id], [Title], [Description], [PosterLink], [GenreId]
 SET IDENTITY_INSERT [dbo].[Films] OFF
 
 SET IDENTITY_INSERT [dbo].[Screenings] ON
-INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (1, N'2025-03-29 18:30:00', 1, 2)
-INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (2, N'2025-03-29 18:30:00', 2, 3)
-INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (3, N'2025-03-29 18:30:00', 3, 1)
-INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (4, N'2025-03-29 18:30:00', 4, 4)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (1, N'2025-04-05 18:30:00', 1, 2)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (2, N'2025-04-05 18:30:00', 2, 3)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (3, N'2025-04-05 18:30:00', 3, 1)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (4, N'2025-04-05 18:30:00', 4, 4)
 SET IDENTITY_INSERT [dbo].[Screenings] OFF
 
 SET IDENTITY_INSERT [dbo].[TicketType] ON
