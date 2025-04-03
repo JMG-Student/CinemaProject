@@ -2,79 +2,79 @@
 @inject SignInManager<IdentityUser> SignInManager
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CinemaProject</title>
-    <link rel="stylesheet" href="~/css/bootstrap.css" asp-append-version="true" />
-</head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-lg bg-primary">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-page="/Customer/Home/Index">CinemaProject</a>
-                <div class="collapse navbar-collapse" id="navbarColor01">
-
-                    @if (SignInManager.IsSignedIn(User))
-                    {
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <ul class="navbar-nav me-auto">
-                                <li class="nav-item">
-                                    <a class="nav-link active" asp-area="" asp-page="/Index">Home</a>
-                                </li>
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" asp-area="" asp-page="/Admin/Films/Index">Films</a>
-                                        <a class="dropdown-item" asp-area="" asp-page="/Admin/Genres/Index">Genres</a>
-                                        <a class="dropdown-item" asp-area="" asp-page="/Admin/Screens/Index">Screens</a>
-                                        <a class="dropdown-item" asp-area="" asp-page="/Admin/Capacities/Index">Capacities</a>
-                                        <a class="dropdown-item" asp-area="" asp-page="/Admin/Screenings/Index">Screenings</a>
-                                        <a class="dropdown-item" asp-area="" asp-page="/Admin/Reports/Index">Report</a>
-
-                                    </div>
-                                </li>
-                            </ul>
-                        }
-                    
-                        <ul class="navbar-nav d-flex flex-grow-1 justify-content-end">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Logout">Logout</a>
-                            </li>
-                        </ul>
-                    }
-                    else
-                    {
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>@ViewData["Title"] - CinemaProject</title>
+        <link rel="stylesheet" href="~/css/bootstrap.css" asp-append-version="true" />
+    </head>
+    <body>
+        <header>
+            <nav class="navbar navbar-expand-lg bg-primary">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-page="/Customer/Home/Index">CinemaProject</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarColor01">
                         <ul class="navbar-nav me-auto">
                             <li class="nav-item">
                                 <a class="nav-link active" asp-area="" asp-page="/Index">Home</a>
                             </li>
                         </ul>
-                        <ul class="navbar-nav flex-grow-1 justify-content-end">
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
-                            </li>
-                        </ul>
-                    }
-                    
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <ul class="navbar-nav me-auto">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Admin</a>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" asp-area="" asp-page="/Admin/Films/Index">Films</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Admin/Genres/Index">Genres</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Admin/Screens/Index">Screens</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Admin/Capacities/Index">Capacities</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Admin/Screenings/Index">Screenings</a>
+                                            <a class="dropdown-item" asp-area="" asp-page="/Admin/Reports/Index">Report</a>
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
+                            <form asp-page="/Customer/Home" method="get" class="d-flex ms-auto">
+                                <input type="text" name="searchString" placeholder="Search Films" class="form-control me-2" />
+                                <button type="submit" class="btn btn-light">Search</button>
+                            </form>
+                            <ul class="navbar-nav d-flex flex-grow-1 justify-content-end ms-2">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Logout">Logout</a>
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="navbar-nav flex-grow-1 justify-content-end">
+                                <li class="nav-item">
+                                    <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
+                                </li>
+                            </ul>
+                        }
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-    <footer class="footer text-muted">
+            </nav>
+        </header>
         <div class="container">
-            &copy; 2025 - CinemaProject - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
-</body>
+        <footer class="footer text-muted">
+            <div class="container">
+                &copy; 2025 - CinemaProject - <a asp-area="" asp-page="/Privacy">Privacy</a>
+            </div>
+        </footer>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+        @await RenderSectionAsync("Scripts", required: false)
+    </body>
 </html>

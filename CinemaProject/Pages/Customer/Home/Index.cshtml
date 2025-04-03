@@ -2,34 +2,34 @@
 @model CinemaProject.Pages.Customer.Home.IndexModel
 @{
     bool isNextWeek = ViewData["IsNextWeek"] as bool? ?? false;
-    string heading = isNextWeek ? "Next Week's Screenings" : "This Week's Screenings";
-    string toggleButtonText = isNextWeek ? "Back to Current Week" : "Next Week's Screenings";
+    string heading = isNextWeek ? "Next Weeks Screenings" : "This Weeks Screenings";
+    string toggleButtonText = isNextWeek ? "Back to Current Week" : "Next Weeks Screenings";
 }
-<div class="row container pb-3">
-    <p>
-        <form class="d-flex" class="col-3">
-            <input type="text" placeholder="Enter Film Name" class="form-control me-sm-2" asp-for="SearchString" />
-            <input type="hidden" asp-for="IsNextWeek" />
-            <input type="submit" value="Search" class="btn btn-outline" class="form-control align-content-end" />
-            <a asp-page="./Index" asp-route-SearchString="" asp-route-IsNextWeek="@isNextWeek" class="btn btn-outline-secondary">Clear</a>
-        </form>
-    </p>
-</div>
 <br />
 <br />
 <br />
 <div class="row container pb-3 backgroundWhite">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="text-align: center">@heading</h2>
-        <a asp-page="./Index" asp-route-IsNextWeek="@(!isNextWeek)" class="btn btn-primary">@toggleButtonText</a>
-    </div>
+    <div class="row container pb-3 backgroundWhite">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="text-align: center; color:white">@heading</h2>
+            <a asp-page="./Index" asp-route-IsNextWeek="@(!isNextWeek)" class="btn btn-primary">@toggleButtonText</a>
+        </div>
+    @if (!string.IsNullOrEmpty(Model.SearchString) && !Model.listOfFilms.Any(film => film.Title.Contains(Model.SearchString, StringComparison.OrdinalIgnoreCase)))
+    {
+        <div style="text-align: center; margin-top: 10px; color:white">
+            <h3>
+                <br />
+                There are no Screenings for "<span style="color: white;">@Model.SearchString</span>"
+            </h3>
+        </div>
+    }
     <div class="film-grid">
         @foreach (var film in Model.listOfFilms)
         {
             <div class="film-item">
                 <div class="card bg-white rounded shadow-sm" style="border:1px solid #222; transition: transform 0.2s; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#descriptionModal-@film.Id">
                     <div class="card-img-container">
-                        <img class="card-img-top img-fluid" src="@film.PosterLink" alt="@film.Title" style="width: 100%; height: auto;" />
+                        <img class="card-img-top img-fluid" src="@film.PosterLink" alt="@film.Title" style="width: 100%; height: 100%;" />
                     </div>
                 </div>
             </div>
@@ -134,7 +134,7 @@
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         overflow: hidden;
-        height: 300px;
+        height: 400px;
     }
 
     .card-body {
