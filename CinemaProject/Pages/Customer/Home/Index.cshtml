@@ -39,7 +39,7 @@
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="descriptionModalLabel-@film.Id">@film.Title</h5>
+                            <h4 class="modal-title" id="descriptionModalLabel-@film.Id">@film.Title</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         @* model body *@
@@ -47,9 +47,9 @@
                             <div class="col-md-5">
                                 <div class="row">
                                     <div class="modal-body text-align: left">
-                                        <p><strong>Genre:</strong> @film.Genre.Name</p>
-                                        <p><strong>Film Length:</strong> @film.Runtime minutes</p>
-                                        <p><strong>Description:</strong> "@film.Description"</p>
+                                        <p><strong>Genre:</strong> <br /> @film.Genre.Name</p>
+                                            <p><strong>Film Length:</strong> <br /> @film.Runtime minutes</p>
+                                            <p><strong>Description:</strong> <br />  "@film.Description"</p>
                               
                                   </div>
                                   <div class="row">
@@ -162,6 +162,14 @@
 
     footer {
         position: static !important;
+    }
+
+    .modal-content {
+        color: white; 
+    }
+    .modal-title {
+        text-align: center;
+        width: 100%; 
     }
 
     @@media (max-width: 1200px) {
