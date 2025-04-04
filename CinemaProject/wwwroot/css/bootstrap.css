@@ -12,7 +12,7 @@
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE)
  */
 @import url("https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&display=swap");
-:root,
+/*:root,
 [data-bs-theme=light] {
   --bs-blue: #b58900;
   --bs-indigo: #6610f2;
@@ -131,8 +131,26 @@
   --bs-form-valid-border-color: #2aa198;
   --bs-form-invalid-color: #d33682;
   --bs-form-invalid-border-color: #d33682;
-}
+}*/
 
+:root,
+[data-bs-theme=light] {
+    --bs-primary: #e50914;
+    --bs-secondary: #1f1f1f;
+    --bs-success: #00c853;
+    --bs-danger: #ff1744;
+    --bs-warning: #ff9100;
+    --bs-info: #29b6f6;
+    --bs-body-bg: #000000;
+    --bs-body-color: #ffffff;
+    --bs-link-color: #e50914;
+    --bs-link-hover-color: #ff1744;
+    /* Optional: update subtle backgrounds and border highlights */
+    --bs-primary-bg-subtle: #4d0b0f;
+    --bs-secondary-bg-subtle: #333333;
+    --bs-dark: #121212;
+}
+/*
 [data-bs-theme=dark] {
   color-scheme: dark;
   --bs-body-color: #dee2e6;
@@ -187,6 +205,60 @@
   --bs-form-valid-border-color: #7fc7c1;
   --bs-form-invalid-color: #e586b4;
   --bs-form-invalid-border-color: #e586b4;
+}
+*/
+
+[data-bs-theme=dark] {
+    color-scheme: dark;
+    --bs-body-bg: #000000;
+    --bs-body-color: #f5f5f5;
+    --bs-primary: #e50914;
+    --bs-secondary: #1c1c1c;
+    --bs-success: #00c853;
+    --bs-warning: #ff9100;
+    --bs-danger: #ff1744;
+    --bs-info: #29b6f6;
+    --bs-link-color: #e50914;
+    --bs-link-hover-color: #ff6f61;
+    --bs-border-color: #333333;
+    --bs-border-color-translucent: rgba(255, 255, 255, 0.1);
+    --bs-heading-color: #ffffff;
+    --bs-emphasis-color: #ffffff;
+    --bs-secondary-color: rgba(245, 245, 245, 0.75);
+    --bs-secondary-bg: #121212;
+    --bs-tertiary-color: rgba(245, 245, 245, 0.5);
+    --bs-tertiary-bg: #1a1a1a;
+    --bs-primary-text-emphasis: #ff6f61;
+    --bs-secondary-text-emphasis: #cfcfcf;
+    --bs-success-text-emphasis: #66ffa6;
+    --bs-info-text-emphasis: #88dcf9;
+    --bs-warning-text-emphasis: #ffc04d;
+    --bs-danger-text-emphasis: #ff809f;
+    --bs-light-text-emphasis: #f5f5f5;
+    --bs-dark-text-emphasis: #e0e0e0;
+    --bs-primary-bg-subtle: #250001;
+    --bs-secondary-bg-subtle: #1a1a1a;
+    --bs-success-bg-subtle: #002d1a;
+    --bs-info-bg-subtle: #001c2a;
+    --bs-warning-bg-subtle: #2a1500;
+    --bs-danger-bg-subtle: #2a000a;
+    --bs-light-bg-subtle: #1c1c1c;
+    --bs-dark-bg-subtle: #0d0d0d;
+    --bs-primary-border-subtle: #801014;
+    --bs-secondary-border-subtle: #3a3a3a;
+    --bs-success-border-subtle: #1b5e20;
+    --bs-info-border-subtle: #1565c0;
+    --bs-warning-border-subtle: #ff6d00;
+    --bs-danger-border-subtle: #b71c1c;
+    --bs-light-border-subtle: #3d3d3d;
+    --bs-dark-border-subtle: #212121;
+    --bs-code-color: #ff80ab;
+    --bs-highlight-color: #f5f5f5;
+    --bs-highlight-bg: #4a1c1c;
+    --bs-form-valid-color: #00c853;
+    --bs-form-valid-border-color: #00c853;
+    --bs-form-invalid-color: #ff1744;
+    --bs-form-invalid-border-color: #ff1744;
 }
 
 *,

@@ -8,6 +8,7 @@
 <br />
 <br />
 <br />
+
 <div class="row container pb-3 backgroundWhite">
     <div class="row container pb-3 backgroundWhite">
         <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -23,6 +24,18 @@
             </h3>
         </div>
     }
+
+        <body class="bg-light text-white">
+            <div class="container py-5">
+                <h1 class="text-primary">Welcome to CineBook</h1>
+                <button class="btn btn-primary">Buy Tickets</button>
+                <div class="alert alert-danger mt-3">Seats are limited!</div>
+            </div>
+        </body>
+
+
+
+
     <div class="film-grid">
         @foreach (var film in Model.listOfFilms)
         {
