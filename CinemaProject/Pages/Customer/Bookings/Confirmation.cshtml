@@ -15,13 +15,13 @@
     <h4>An email has been sent to @Model.booking.CustomerEmail</h4>
     <h4>Your booking ID is @Model.booking.Id</h4>
     <br />
-    <h4>Film: </h4>
-    <h4>Time: </h4>
-    <h4>Screen: </h4>
+    <h4>Film: @Model.film.Title</h4>
+    <h4>Time: @Model.screening.Time.ToString()</h4>
+    <h4>Screen: @Model.screening.ScreenID </h4>
     <br />
     <br />
     <table class="table table-bordered table-striped">
-    
+
         <thead>
             <tr>
                 <th>Ticket Type</th>
@@ -33,18 +33,21 @@
         <tbody>
             @foreach (var obj in Model.tickets)
             {
-                <tr>
-                    <td width="15%">@obj.Type.Name</td>
-                    <td width="15%">@obj.Count</td>
-                    <td width="15%">@obj.Type.Price</td>
-                    <td width="15%">@obj.TotalPrice</td>
-                </tr>
+                @if (obj.Count >= 1)
+                {
+                    <tr>
+                        <td width="15%">@obj.Type.Name</td>
+                        <td width="15%">@obj.Count</td>
+                        <td width="15%">@obj.Type.Price</td>
+                        <td width="15%">@obj.TotalPrice</td>
+                    </tr>
+                }
             }
             <tr>
                 <td width="15%"></td>
                 <td width="15%"></td>
                 <td width="15%"></td>
-                <td width="15%">@Model.booking.TotalPrice</td>
+                <td width="15%">@Model.booking.TotalPrice.ToString("F2")</td>
             </tr>
         </tbody>
     </table>

@@ -18,8 +18,10 @@ namespace CinemaProject.Pages.Customer.Bookings
 			_unitOfWork = unitOfWork;
 		}
 
-		public Booking booking { get; set; }
-		public ConfirmTicket[] tickets = new ConfirmTicket[] { };
+        public Booking booking { get; set; }
+		public Film film { get; set; }
+		public Screening screening { get; set; }
+		public ConfirmTicket[] tickets = new ConfirmTicket[3];
         public void OnGet(int id)
 		{
 
@@ -33,11 +35,14 @@ namespace CinemaProject.Pages.Customer.Bookings
 					ticket.TicketType = _unitOfWork.TicketTypeRepo.Get(ticket.TicketTypeId);
 					ticket.Screening = _unitOfWork.ScreeningRepo.Get(ticket.ScreeningId);
 					ticket.Screening.Film = _unitOfWork.FilmRepo.Get(ticket.Screening.FilmID);
-						
-				}
+
+					screening = ticket.Screening;
+					film = ticket.Screening.Film;
+
+                }
 				
 			}
-
+			int i = 0;
 			foreach (var type in _unitOfWork.TicketTypeRepo.GetAll())
 			{
 				confirmTicket = new ConfirmTicket();
@@ -45,8 +50,8 @@ namespace CinemaProject.Pages.Customer.Bookings
 				confirmTicket.Type = type;
 				confirmTicket.TotalPrice = type.Price * confirmTicket.Count;
 
-                tickets.Append(confirmTicket);
-
+				tickets[i] = confirmTicket;
+				i++;
 
             }
 

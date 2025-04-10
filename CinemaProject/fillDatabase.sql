@@ -72,6 +72,26 @@ INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (30, 
 INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (31, N'2025-04-12 16:30:00', 8, 8)
 INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (32, N'2025-04-12 18:30:00', 8, 8)
 
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (33, N'2025-04-15 12:30:00', 1, 1)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (34, N'2025-04-15 14:30:00', 1, 1)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (35, N'2025-04-15 16:30:00', 1, 1)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (36, N'2025-04-15 18:30:00', 1, 1)
+
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (37, N'2025-04-15 12:30:00', 2, 2)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (38, N'2025-04-15 14:30:00', 2, 2)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (39, N'2025-04-15 16:30:00', 2, 2)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (40, N'2025-04-15 18:30:00', 2, 2)
+
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (41, N'2025-04-15 12:30:00', 3, 3)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (42, N'2025-04-15 14:30:00', 3, 3)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (43, N'2025-04-15 16:30:00', 3, 3)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (44, N'2025-04-15 18:30:00', 3, 3)
+
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (45, N'2025-04-15 12:30:00', 4, 4)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (46, N'2025-04-15 14:30:00', 4, 4)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (47, N'2025-04-15 16:30:00', 4, 4)
+INSERT INTO [dbo].[Screenings] ([Id], [Time], [ScreenID], [FilmID]) VALUES (48, N'2025-04-15 18:30:00', 4, 4)
+
 
 SET IDENTITY_INSERT [dbo].[Screenings] OFF
 

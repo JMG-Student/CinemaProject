@@ -10,9 +10,9 @@
     </head>
     <body>
         <header>
-            <nav class="navbar navbar-expand-lg bg-primary">
-                <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-page="/Customer/Home/Index">CinemaProject</a>
+            <nav class="navbar navbar-expand-lg bg-dark" data-bs-theme="dark">
+                <div class="container-fluid">
+                    <a class="navbar-brand" asp-area="" asp-page="/Customer/Home/Index">Poppin' Corn</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
@@ -40,11 +40,14 @@
                                     </li>
                                 </ul>
                             }
-                            <form asp-page="/Customer/Home" method="get" class="d-flex ms-auto">
-                                <input type="text" name="searchString" placeholder="Search Films" class="form-control me-2" />
-                                <button type="submit" class="btn btn-light">Search</button>
-                            </form>
+
                             <ul class="navbar-nav d-flex flex-grow-1 justify-content-end ms-2">
+                                <li>
+                                <form asp-page="/Customer/Home" method="get" class="d-flex ms-auto">
+                                    <input type="text" name="searchString" placeholder="Search Films" class="form-control me-sm-2" />
+                                    <button type="submit" class="btn btn-primary my-2 my-sm-0">Search</button>
+                                </form>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Logout">Logout</a>
                                 </li>
@@ -53,6 +56,12 @@
                         else
                         {
                             <ul class="navbar-nav flex-grow-1 justify-content-end">
+                                <li>
+                                    <form asp-page="/Customer/Home" method="get" class="d-flex ms-auto">
+                                        <input type="text" name="searchString" placeholder="Search Films" class="form-control me-sm-2" />
+                                        <button type="submit" class="btn btn-primary my-2 my-sm-0">Search</button>
+                                    </form>
+                                </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-page="/Login">Login</a>
                                 </li>
