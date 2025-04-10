@@ -1,4 +1,4 @@
-using CinemaProject.Models.Models;
+﻿using CinemaProject.Models.Models;
 using CinemaProject.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -15,6 +15,11 @@ namespace CinemaProject.Pages.Customer.Bookings
         public Screening Screening { get; set; }
         public List<TicketType> TicketTypeList = new List<TicketType>();
         public List<int> ticketQuantities = new List<int>();
+        public int availableSeats;
+
+        public bool NotEnoughSeats { get; set; } = false;
+
+
         public int ScreeningId { get; set; }
 
         //card deatials 
@@ -52,13 +57,42 @@ namespace CinemaProject.Pages.Customer.Bookings
             Booking.Tickets = new List<Ticket>();
             ScreeningId = id;
 
+            //getting the screening capacity
+            Screening screening = _unitOfWork.ScreeningRepo.Get(ScreeningId);
+            Screen screen = _unitOfWork.ScreenRepo.Get(screening.ScreenID);
+            Cap cap = _unitOfWork.CapacityRepo.Get(screen.CapId);
+            int bookedTickets = _unitOfWork.TicketRepo.GetAll().Count(t => t.ScreeningId == ScreeningId);
+            availableSeats = (int)cap.Capacity - bookedTickets;
+
         }
 
         public IActionResult OnPost(Booking booking, List<int> ticketQuantities, int ScreeningId)
         {
+            // 🔁 Recalculate available seats
+            Screening screening = _unitOfWork.ScreeningRepo.Get(ScreeningId);
+            Screen screen = _unitOfWork.ScreenRepo.Get(screening.ScreenID);
+            Cap cap = _unitOfWork.CapacityRepo.Get(screen.CapId);
+            int bookedTickets = _unitOfWork.TicketRepo.GetAll().Count(t => t.ScreeningId == ScreeningId);
+            availableSeats = (int)cap.Capacity - bookedTickets;
+            // Set up initial state
+            booking.TotalPrice = 0;
+            booking.Tickets = new List<Ticket>();
+
+            // 🔑 Step 1: Save the booking FIRST to get the generated ID
+            _unitOfWork.BookingRepo.Add(booking);
+            _unitOfWork.Save(); // <-- make sure this is not missing or commented out!
+
+
+            // ✅ Also reassign these for page redisplay
+            Screening = screening;
+            Film = _unitOfWork.FilmRepo.Get(Screening.FilmID);
+            Booking = booking;
+            this.ScreeningId = ScreeningId;
+            this.ticketQuantities = ticketQuantities;
+
             if (ModelState.IsValid)
             {
-                //make sure card is not out of date
+                // Validate expiration
                 if (!DateTime.TryParseExact(ExpirationDate, "MM/yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime expiry))
                 {
                     ModelState.AddModelError("ExpirationDate", "Invalid format. Use MM/YYYY.");
@@ -67,67 +101,48 @@ namespace CinemaProject.Pages.Customer.Bookings
                 {
                     ModelState.AddModelError("ExpirationDate", "Card has expired.");
                 }
-                int ticketsOnHold = 0;
-                foreach (int quantie in ticketQuantities)
-                {
-                    ticketsOnHold += quantie;
-                }
+
+                int ticketsOnHold = ticketQuantities.Sum();
+
                 if (ticketsOnHold <= 0)
                 {
                     return RedirectToPage("Index");
-
                 }
-                //getting the screening capacity
-                Screening screening = _unitOfWork.ScreeningRepo.Get(ScreeningId);
-                Screen screen = _unitOfWork.ScreenRepo.Get(screening.ScreenID);
-                Cap cap = _unitOfWork.CapacityRepo.Get(screen.CapId);
-
-                _unitOfWork.BookingRepo.Add(booking);
-                _unitOfWork.Save();
-                int bookedTickets = _unitOfWork.TicketRepo.GetAll().Count(t => t.ScreeningId == ScreeningId);
-                int availableSeats = (int)cap.Capacity - bookedTickets;
 
                 if (ticketsOnHold > availableSeats)
                 {
-                    return RedirectToPage("/Customer/Home/Index");
+                    NotEnoughSeats = true;
+                    return Page(); // shows modal
                 }
 
+                // Save tickets
                 for (int i = 0; i < TicketTypeList.Count; i++)
                 {
-
-                    for (int x = 0; x < ticketQuantities[i]; x++)
+                    for (int j = 0; j < ticketQuantities[i]; j++)
                     {
-
-
-                        Ticket tic = new Ticket
+                        Ticket ticket = new Ticket
                         {
                             TicketTypeId = TicketTypeList[i].Id,
-                            TicketType = TicketTypeList[i],
                             ScreeningId = ScreeningId,
-                            BookingId = booking.Id,
+                            BookingId = booking.Id // ✅ now booking.Id is guaranteed to exist
                         };
+
                         booking.TotalPrice += TicketTypeList[i].Price;
-
-                        _unitOfWork.TicketRepo.Add(tic);
-
+                        _unitOfWork.TicketRepo.Add(ticket);
                     }
-
                 }
-                _unitOfWork.BookingRepo.Update(booking);
+
+
+                _unitOfWork.BookingRepo.Update(booking); // Update price
                 _unitOfWork.Save();
 
                 TempData["SuccessMessage"] = "Payment successful! Your booking is confirmed.";
-
                 return RedirectToPage("Confirmation", new { id = booking.Id });
             }
-            else
-            {
 
-                return RedirectToPage("/Customer/Home/Index");
-            }
-
-            
+            return RedirectToPage("/Customer/Home/Index");
         }
+
     }
 }
 

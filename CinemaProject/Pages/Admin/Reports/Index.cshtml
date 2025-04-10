@@ -1,8 +1,7 @@
 ﻿@page
-@model CinemaProject.Pages.Admin.Reports.WeeklyModel
+@model CinemaProject.Pages.Admin.Reports.ReportModel
 
 <h2>Weekly Report Generator</h2>
-
 <div class="row mb-4">
     <div class="col-md-6">
         <form method="post" class="card">
@@ -10,20 +9,28 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label asp-for="StartDate" class="form-label">Start Date</label>
-                        <input asp-for="StartDate" type="date" class="form-control">
+                        <input asp-for="StartDate" type="date" class="form-control" />
                     </div>
                     <div class="col-md-6">
                         <label asp-for="EndDate" class="form-label">End Date</label>
-                        <input asp-for="EndDate" type="date" class="form-control">
+                        <input asp-for="EndDate" type="date" class="form-control" />
                     </div>
                 </div>
+
                 <button type="submit" asp-page-handler="Generate" class="btn btn-primary mt-3">
                     Generate and Save Report
                 </button>
             </div>
         </form>
+
+        <form method="post" asp-page-handler="DownloadPdf" class="mt-2">
+            <button type="submit" class="btn btn-outline-secondary">
+                📄 Download PDF
+            </button>
+        </form>
     </div>
 </div>
+
 
 @if (Model.CurrentReport != null)
 {
@@ -49,25 +56,27 @@
     </div>
 }
 
-<h4 class="mt-4">Historical Reports</h4>
-<table class="table table-hover">
-    <thead class="table-light">
-        <tr>
-            <th>Week</th>
-            <th>Tickets Sold</th>
-            <th>Total Revenue</th>
-            <th>Generated On</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var report in Model.PastReports)
-        {
+@if (Model.FilmStats.Any())
+{
+    <h4>Tickets Sold Per Film</h4>
+    <table class="table table-bordered">
+        <thead class="table-light">
             <tr>
-                <td>@report.ReportTitle</td>
-                <td>@report.TotalTicketsSold</td>
-                <td>@report.TotalRevenue.ToString("C")</td>
-                <td>@report.GeneratedOn.ToString("g")</td>
+                <th>Film</th>
+                <th>Tickets Sold</th>
+                <th>Total Revenue</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var entry in Model.FilmStats)
+            {
+                <tr>
+                    <td>@entry.Key</td>
+                    <td>@entry.Value.TicketsSold</td>
+                    <td>@entry.Value.Revenue.ToString("C")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

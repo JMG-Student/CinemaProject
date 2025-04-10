@@ -2,65 +2,79 @@
 @model CinemaProject.Pages.Customer.Home.IndexModel
 @{
     bool isNextWeek = ViewData["IsNextWeek"] as bool? ?? false;
-    string heading = isNextWeek ? "Next Week's Screenings" : "This Week's Screenings";
-    string toggleButtonText = isNextWeek ? "Back to Current Week" : "Next Week's Screenings";
+    string heading = isNextWeek ? "Next Weeks Screenings" : "This Weeks Screenings";
+    string toggleButtonText = isNextWeek ? "Back to Current Week" : "Next Weeks Screenings";
 }
-<div class="row container pb-3">
-    <p>
-        <form class="d-flex" class="col-3">
-            <input type="text" placeholder="Enter Film Name" class="form-control me-sm-2" asp-for="SearchString" />
-            <input type="hidden" asp-for="IsNextWeek" />
-            <input type="submit" value="Search" class="btn btn-outline" class="form-control align-content-end" />
-            <a asp-page="./Index" asp-route-SearchString="" asp-route-IsNextWeek="@isNextWeek" class="btn btn-outline-secondary">Clear</a>
-        </form>
-    </p>
-</div>
 <br />
 <br />
 <br />
 <div class="row container pb-3 backgroundWhite">
-    <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="text-align: center">@heading</h2>
-        <a asp-page="./Index" asp-route-IsNextWeek="@(!isNextWeek)" class="btn btn-primary">@toggleButtonText</a>
-    </div>
+    <div class="row container pb-3 backgroundWhite">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h2 style="text-align: center; color:white">@heading</h2>
+            <a asp-page="./Index" asp-route-IsNextWeek="@(!isNextWeek)" class="btn btn-primary">@toggleButtonText</a>
+        </div>
+    @if (!string.IsNullOrEmpty(Model.SearchString) && !Model.listOfFilms.Any(film => film.Title.Contains(Model.SearchString, StringComparison.OrdinalIgnoreCase)))
+    {
+        <div style="text-align: center; margin-top: 10px; color:white">
+            <h3>
+                <br />
+                There are no Screenings for "<span style="color: white;">@Model.SearchString</span>"
+            </h3>
+        </div>
+    }
     <div class="film-grid">
         @foreach (var film in Model.listOfFilms)
         {
+            //movie poster
             <div class="film-item">
                 <div class="card bg-white rounded shadow-sm" style="border:1px solid #222; transition: transform 0.2s; cursor: pointer;" data-bs-toggle="modal" data-bs-target="#descriptionModal-@film.Id">
                     <div class="card-img-container">
-                        <img class="card-img-top img-fluid" src="@film.PosterLink" alt="@film.Title" style="width: 100%; height: auto;" />
+                        <img class="card-img-top img-fluid" src="@film.PosterLink" alt="@film.Title" style="width: 100%; height: 100%;" />
                     </div>
                 </div>
             </div>
+            //popup
             <div class="modal fade" id="descriptionModal-@film.Id" tabindex="-1" aria-labelledby="descriptionModalLabel-@film.Id" aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="descriptionModalLabel-@film.Id">@film.Title</h5>
+                            <h4 class="modal-title" id="descriptionModalLabel-@film.Id">@film.Title</h4>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div class="modal-body text-align: left">
-                            <p><strong>Genre:</strong> @film.Genre.Name</p>
-                            <p><strong>Film Length:</strong> @film.Runtime minutes</p>
-                            <p><strong>Description:</strong> "@film.Description"</p>
-                        </div>
-                        <div class="modal-body text-center">
-                            @if (!string.IsNullOrEmpty(film.TrailerLink))
-                            {
-                                <div class="embed-responsive embed-responsive-16by9 mb-4">
-                                    <iframe class="embed-responsive-item"
-                                            width="100%"
-                                            height="315"
-                                            src="@film.TrailerLink?rel=0&autoplay=0"
-                                            allowfullscreen>
-                                    </iframe>
+                        @* model body *@
+                        <div class="row">
+                            <div class="col-md-5">
+                                <div class="row">
+                                    <div class="modal-body text-align: left" >
+                                        <p><strong>Genre:</strong> <br /> @film.Genre.Name</p>
+                                            <p><strong>Film Length:</strong> <br /> @film.Runtime minutes</p>
+                                            <p><strong>Description:</strong> <br />  "@film.Description"</p>
+                              
+                                  </div>
+                                  <div class="row">
+                                    <div class="modal-body text-center">
+                                        @if (!string.IsNullOrEmpty(film.TrailerLink))
+                                        {
+                                            <div class="embed-responsive embed-responsive-16by9 mb-4">
+                                                <iframe class="embed-responsive-item"
+                                                        width="100%"
+                                                        height="50%"
+                                                        src="@film.TrailerLink?rel=0&autoplay=0"
+                                                        allowfullscreen>
+                                                </iframe>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <p class="text-muted">No trailer available.</p>
+                                        }
+                                     </div>
+                                    </div>
                                 </div>
-                            }
-                            else
-                            {
-                                <p class="text-muted">No trailer available.</p>
-                            }
+                           </div>
+                            <div class="col-md-6 text-center">
+
                             <h4>Screenings @(isNextWeek ? "Next Week" : "This Week")</h4>
                             @{
                                 var currentDate = DateTime.Now;
@@ -72,39 +86,43 @@
                                 .ToList();
                             }
                             @if (screenings.Any())
-                            {
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Date</th>
-                                            <th>Start Time</th>
-                                            <th>End Time</th>
-                                            <th>Screen</th>
-                                            <th>Book Tickets</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var screening in screenings)
-                                        {
-                                            var endTime = screening.Time.AddMinutes(film.Runtime);
+                                {
+                                    <table class="table table-bordered table-striped">
+                                        <thead>
                                             <tr>
-                                                <td>@screening.Time.ToString("D")</td>
-                                                <td>@screening.Time.ToString("t")</td>
-                                                <td>@endTime.ToString("t")</td>
-                                                <td>@screening.ScreenID</td>
-                                                <td>
-                                                    <a asp-page="/Customer/Bookings/Create" asp-route-Id="@screening.Id" class="btn btn-primary">Book Tickets</a>
-                                                </td>
+                                                <th>Date</th>
+                                                <th>Start Time</th>
+                                                <th>End Time</th>
+                                                <th>Screen</th>
+                                                <th>Book Tickets</th>
                                             </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            }
-                            else
-                            {
-                                <p>No screenings found for this week.</p>
-                            }
-                        </div>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var screening in screenings)
+                                            {
+                                                var endTime = screening.Time.AddMinutes(film.Runtime);
+                                                <tr>
+                                                    <td>@screening.Time.ToString("D")</td>
+                                                    <td>@screening.Time.ToString("t")</td>
+                                                    <td>@endTime.ToString("t")</td>
+                                                    <td>@screening.ScreenID</td>
+                                                    <td>
+                                                        <a asp-page="/Customer/Bookings/Create" asp-route-Id="@screening.Id" class="btn btn-primary">Book Tickets</a>
+                                                    </td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                }
+                                else
+                                {
+                                    <p>No screenings found for this week.</p>
+                                }
+                            </div>
+                               
+                         </div>
+                        
+                        
                     </div>
                 </div>
             </div>
@@ -134,7 +152,7 @@
         border-top-left-radius: 10px;
         border-top-right-radius: 10px;
         overflow: hidden;
-        height: 300px;
+        height: 400px;
     }
 
     .card-body {
@@ -144,6 +162,14 @@
 
     footer {
         position: static !important;
+    }
+
+    .modal-content {
+        color: white; 
+    }
+    .modal-title {
+        text-align: center;
+        width: 100%; 
     }
 
     @@media (max-width: 1200px) {
